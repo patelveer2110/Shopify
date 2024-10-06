@@ -1,20 +1,27 @@
 import { v2 as cloudinary } from "cloudinary";
 import productModel from "../models/productModel.js";
 import { json } from "express";
+import adminModel from '../models/adminModel.js'
 
 
 
 // function for add product 
 const addProduct = async (req,res) =>  {
     try {
+        
         const {name, description, category, price, bestseller } =req.body;
         const image1 =  req.files.image && req.files.image[0];
         //const image2 = req.files.image && req.files.image[0];
+        const ID = req.adminID
+       // console.log(req.adminID);
         
+        const admin = await adminModel.findById(ID);
+    if (!admin) {
+      return res.json({ message: 'Admin not found' });
+    }
        let imageUrl= await (await (cloudinary.uploader.upload(image1.path,{resource_type:"image"}))).secure_url
-        console.log(name, description, category, price, bestseller);
-        // console.log(image1);
-        // console.log(imageUrl);
+        console.log(name, description, category, price, bestseller,admin.shopName);
+    
         
         const productData = {
             name,
@@ -23,6 +30,8 @@ const addProduct = async (req,res) =>  {
             price : Number(price),
             bestseller: bestseller==="true"?true:false,
             image : imageUrl,
+            shopName : admin.shopName,
+            adminId : ID,
             date: Date.now()
         }
 
@@ -40,9 +49,16 @@ const addProduct = async (req,res) =>  {
 }
 
 //function for listing products
-const listProduct =async (req,res) =>  {
+const listProductAdmin =async (req,res) =>  {
+    const ID = req.adminID
+       // console.log(req.adminID);
+        
+        const admin = await adminModel.findById(ID);
+    if (!admin) {
+      return res.json({ message: 'Admin not found' });
+    }
     try {
-        const products =await productModel.find({});
+        const products =await productModel.find({adminId : ID });
         res.json({success:true,products})
     } catch (error) {
         console.log(error);
@@ -79,5 +95,16 @@ const singleProduct =async (req,res) =>  {
    }
 }
 
+const listProduct =async (req,res) =>  {
 
-export  { addProduct, listProduct, removeProduct, singleProduct}
+    try {
+        const products =await productModel.find({});
+        res.json({success:true,products})
+    } catch (error) {
+        console.log(error);
+        res.json({success:false,message:error.message})
+        
+    }
+
+}
+export  { addProduct, listProduct, listProductAdmin , removeProduct, singleProduct}

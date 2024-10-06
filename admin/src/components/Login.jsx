@@ -13,14 +13,15 @@ const Login = ({setToken}) => {
         try {
             e.preventDefault();
            // console.log(email, password);
-            const respose =await axios.post(backendUrl+'/api/user/admin',{email,password})
-            // console.log(respose);
-            if (respose.data.success) {
-
-                setToken(respose.data.token)
+            const response =await axios.post(backendUrl+'/api/admin/login',{email,password})
+             console.log(response);
+            if (response.data.success) {
+                console.log(response.data.token_admin);
+                
+                setToken(response.data.token_admin)
             }
             else{
-                toast.error(respose.data.message)
+                toast.error(response.data.message)
             }
             
 

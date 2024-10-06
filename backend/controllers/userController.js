@@ -71,7 +71,7 @@ const registerUser = async (req, res) => {
 
                 const token = createToken(user._id)
 
-                res.json({ success: true, token })
+                res.json({ success: true, token, message: 'User Registered successfully' })
         } catch (error) {
                 console.log(error);
                 res.json({ success: false, message: error.message })
@@ -79,22 +79,5 @@ const registerUser = async (req, res) => {
         }
 }
 
-//Route for admin login
 
-const adminLogin = async (req, res) => {
-        try {
-                const{email,password}=req.body
-        if (email===process.env.ADMIN_EMAIL&&password===process.env.ADMIN_PASSWORD) {
-                const token =jwt.sign(email+password,process.env.JWT_SECRET);
-                res.json({success:true,token})
-                
-        }
-        else{
-                res.json({success:false,message:"InValid Authentication"})
-        }
-        } catch (error) {
-                res.json({success:false,message:error.message})
-        }
-}
-
-export { loginUser, registerUser, adminLogin }
+export { loginUser, registerUser }

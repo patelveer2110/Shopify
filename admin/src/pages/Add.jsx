@@ -28,8 +28,9 @@ const Add = ({token}) => {
       formData.append("bestseller", bestseller)
 
       formData.append("image",image)
+      const token = localStorage.getItem('token_admin')
       
-      const response = await axios.post(backendUrl + "/api/product/add",formData,{headers:{token}})
+      const response = await axios.post(backendUrl + "/api/product/add",formData,{headers:{token_admin : token}})
 
       // console.log(response);
 

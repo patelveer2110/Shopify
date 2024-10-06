@@ -1,0 +1,126 @@
+import adminModel from "../models/adminModel.js";
+import validator from "validator"
+import bcrypt from "bcrypt";
+import express from "express" 
+import jwt from "jsonwebtoken";
+
+const createToken = (adminId) => {
+        return jwt.sign({id : adminId } , process.env.JWT_SECRET);
+}
+
+const adminLogin = async (req, res) => {
+    try {
+        const{email, password}= req.body;
+
+        const admin =await adminModel.findOne({email});
+
+        if(!admin){
+                return res.json({success : false, message:"Admin doesnt exist"})
+        }
+        const isMatch = await bcrypt.compare(password, admin.password);
+
+        if(isMatch){
+                const token_admin =createToken(admin._id)
+                res.setHeader("token_admin", token_admin);
+                res.json({success:true,token_admin})
+        }
+        else{
+                res.json({success:false, message:"Invalid creditials"})
+        }
+} catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+}
+}
+
+const adminRegister = async (req,res) => {
+    
+        try {
+          const { name, email, password, shopName, address, contactNumber } = req.body;
+     // res.json(email)
+     console.log(email);
+     
+          // Check if admin already exists
+          const exists = await adminModel.findOne({email})
+          if (exists) {
+                  return res.json({ success: false, message: "User already exists" })
+          }
+
+          //validating email format and password
+
+          if (!validator.isEmail(email)) {
+                  return res.json({ success: false, message: "Please enter valid email." });
+          }
+          if (password.length < 8) {
+                  return res.json({ success: false, message: "Please enter Strong password." });
+          }
+
+      
+          // Encrypt password
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(password, salt);
+      
+          // Create new admin
+          const newAdmin = new adminModel({
+            name,
+            email,
+            password: hashedPassword,
+            shopName,
+            address,
+            contactNumber,
+            shopStatus : true,
+          });
+      
+          const admin = await newAdmin.save();
+
+          const token_admin = createToken(admin._id)
+          res.setHeader("token-admin", token_admin);
+
+          res.json({ success: true, token_admin , message:'Admin Regisetered successfully' });
+        } catch (error) {
+            console.log(error);
+            res.json({ success: false, message: error.message })
+        }
+          
+}
+
+
+// Update shop status
+const updateShopStatus = async (req, res) => {
+  try {
+    const adminId = req.adminID; // Assuming `req.adminID` is available through middleware
+    const { shopStatus } = req.body; // Shop status coming from the frontend
+
+    const admin = await adminModel.findById(adminId);
+    if (!admin) {
+      return res.json({ success: false, message: "Admin not found" });
+    }
+    console.log(shopStatus);
+    
+    // Update the shop status
+    admin.shopStatus = shopStatus;
+    await admin.save();
+
+    res.json({ success: true, message: "Shop status updated", shopStatus });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Get shop status (optional)
+const getShopStatus = async (req, res) => {
+  try {
+    const adminId = req.adminID;
+    const admin = await adminModel.findById(adminId);
+
+    if (!admin) {
+      return res.json({ success: false, message: "Admin not found" });
+    }
+
+    res.json({ success: true, shopStatus: admin.shopStatus });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export { adminLogin, adminRegister, updateShopStatus, getShopStatus };
