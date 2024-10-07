@@ -15,6 +15,12 @@ export const backendUrl = import.meta.env.VITE_BACKEND_URL
 const App = () => {
 
   const [token, setToken] = useState(localStorage.getItem('token_admin')?localStorage.getItem('token_admin'):'')
+  
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   useEffect(()=>{
     localStorage.setItem('token_admin',token)
@@ -26,11 +32,11 @@ const App = () => {
         ? <Login setToken={setToken}/>
         :
         <>
-          <Navbar setToken={setToken}/>
+          <Navbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} setToken={setToken} />
           <hr />
           <div className='flex w-full'>
-            <Sidebar />
-            <div className=" w-[70%] mx-auto ml-[max(5vw,25px)] my-8 text-gray-600 text-base">
+            <Sidebar isSidebarOpen={isSidebarOpen} setToken={setToken}/>
+            <div className="flex-1  w-[70%] mx-auto ml-[max(5vw,25px)]  text-gray-600 text-base ">
               <Routes>
                 <Route path='/add' element={<Add token={token} />} />
                 <Route path='/list' element={<List token={token} />} />

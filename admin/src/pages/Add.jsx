@@ -52,56 +52,48 @@ const Add = ({token}) => {
   }
 
   return (
-    <form onSubmit={onSumbitHandler} className=' flex flex-col w-full items-start gap-3'>
-      <div>
-        <p className=' mb-2'>Upload Image</p>
-        <div>
-          <label htmlFor="image">
-            <img className=' w-20' src={!image ? assets.upload_area : URL.createObjectURL(image)} alt="" />
-            <input onChange={(e) => setImage(e.target.files[0])} type="file" id="image" hidden />
-          </label>
-        </div>
-      </div>
+    <form onSubmit={onSumbitHandler} className="flex flex-col w-full items-start gap-3 mt-14 p-8">
+  <div>
+    <p className="mb-2">Upload Image</p>
+    <div>
+      <label htmlFor="image">
+        <img className="w-20 sm:w-32" src={!image ? assets.upload_area : URL.createObjectURL(image)} alt="" />
+        <input onChange={(e) => setImage(e.target.files[0])} type="file" id="image" hidden />
+      </label>
+    </div>
+  </div>
 
-      <div className=' w-full'>
-        <p className=' mb-2'>Product Name</p>
-        <input onChange={(e) => setName(e.target.value)} value={name} className=' w-full max-[500px] px-3 py-2' type="text" placeholder="Type here" required />
-      </div>
+  <div className="w-full">
+    <p className="mb-2">Product Name</p>
+    <input onChange={(e) => setName(e.target.value)} value={name} className="w-full px-3 py-2" type="text" placeholder="Type here" required />
+  </div>
 
+  <div className="w-full">
+    <p className="mb-2">Product Description</p>
+    <textarea onChange={(e) => setDescription(e.target.value)} value={description} className="w-full px-3 py-2" type="text" placeholder="Write content here" required />
+  </div>
 
-      <div className=' w-full'>
-        <p className=' mb-2'>Product Description</p>
-        <textarea onChange={(e) => setDescription(e.target.value)} value={description} className=' w-full max-[500px] px-3 py-2' type="text" placeholder="Write content here" required />
-      </div>
+  <div className="flex flex-col sm:flex-row gap-2 w-full sm:gap-8">
+    <div className="w-full sm:w-auto">
+      <p className="mb-2">Product Category</p>
+      <select onChange={(e) => setCategory(e.target.value)} className="w-full px-3 py-2" placeholder="Select" required>
+        <option value="select">Select</option>
+        <option value="Dairy">Dairy Items</option>
+        <option value="Personal">Personal Care</option>
+        <option value="Snacks">Namkeen and Snacks</option>
+        <option value="Basic">Basic Groceries</option>
+      </select>
+    </div>
 
+    <div className="w-full sm:w-auto">
+      <p className="mb-2">Product Price</p>
+      <input onChange={(e) => setPrice(e.target.value)} value={price} className="w-full sm:w-28 px-3 py-2" type="number" placeholder="Price" />
+    </div>
+  </div>
 
-      <div className=' flex flex-col sm:flex-row gap-2 w-full sm:gap-8'>
-        <div>
-          <p className=' mb-2'>Product Category</p>
-          <select onChange={(e) => setCategory(e.target.value)} className=' w-full px-3 py2 ' placeholder="Select" required>
-            <option value="select" aria-disabled >Select</option>
-            <option value="Dairy">Dairy Items</option>
-            <option value="Personal">Personal Care</option>
-            <option value="Snacks">Namkeen and Snacks</option>
-            <option value="Basic">Basic Groceries</option>
-          </select>
-        </div>
+  <button type="submit" className="w-full sm:w-28 py-3 mt-4 bg-black text-white">Add</button>
+</form>
 
-
-        <div>
-          <p className=' mb-2'>Product Price</p>
-          <input onChange={(e) => setPrice(e.target.value)} value={price} className=' w-full px-3 py-2 sm:w-[120px]' type="number" placeholder="Price" />
-        </div>
-        
-      </div>
-
-      <div className=' flex gap-2 mt-2'>
-        <input onChange={() => setBestseller( prev => !prev)} checked={bestseller} type="checkbox" id="bestseller" />
-        <label className=' cursor-pointer' htmlFor="bestseller">Add to bestseller</label>
-      </div>
-
-      <button type="submit" className=' w-28 py3 mt-4 bg-black text-white'>Add</button>
-    </form>
   )
 }
 

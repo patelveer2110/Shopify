@@ -17,3 +17,18 @@ select,input,textarea{
     outline-color: #c586a5;
     border-radius: 4px;
 }
+@media (max-width: 640px) {
+    /* Styles for small screens */
+    .navbar-logo {
+      width: 50px;
+    }
+  
+    .sidebar {
+      display: none;
+    }
+  
+    .main-content {
+      width: 100%;
+    }
+  }
+  
