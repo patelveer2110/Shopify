@@ -16,10 +16,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen, setToken }) => {
       </button>
 
       {/* Logout Button (Hidden on Small Screens) */}
-      <button 
-        onClick={() => setToken('')} 
-        className="hidden sm:block bg-gray-600 text-white px-4 py-2 md:px-7 md:py-2 rounded-full text-xs md:text-sm"
-      >
+      <button onClick={() => setToken('')} className="hidden sm:block bg-gray-600 text-white px-4 py-2 md:px-7 md:py-2 rounded-full text-xs md:text-sm">
         Log out
       </button>
     </div>

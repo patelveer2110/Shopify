@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
+import { backendUrl } from '../../../admin/src/App';
+import axios from 'axios'
 
 const Product = () => {
   const { productId } = useParams();
@@ -10,17 +12,29 @@ const Product = () => {
   const [productData , setProductData] = useState(false);
   const [image , setImage ] = useState('')
   const [size , setSize] = useState('')
+  const [shopStatus, setShopStatus] = useState(null);
+
+  // Fetch shop status by adminId (shopId)
+  const fetchShopStatus = async (adminId) => {
+    try {
+      const response = await axios.post(backendUrl+`/api/admin/${adminId}/status`); // Fetch shop status from backend
+      setShopStatus(response.data.shopStatus); // Set the shop status (true for open, false for closed)
+    } catch (error) {
+      console.error('Error fetching shop status:', error);
+    }
+  };
 
   const fetchProductData = async () => {
     products.map((item) => {
       if(item._id === productId){
         setProductData(item)
-        setImage(item.image[0])
+        setImage(item.image)
+        fetchShopStatus(item.adminId);
         return null  ;
       }
     })
   }
-
+  
   useEffect(() => {
     fetchProductData()
   },[productId])
@@ -32,11 +46,8 @@ const Product = () => {
           {/* ------------------- Product Images -------------------- */}
           <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row'>
             <div className='flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full'>
-                {
-                  productData.image.map((item , index) => (
-                    <img onClick={()=> setImage(item)} src={item} key={index} className='w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer' alt="" />
-                  ))
-                }
+               <img  src={image}  className='w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer' alt="" />
+                
             </div>
             <div className='w-full sm:w-[80%]'>
               <img className='w-full h-auto ' src={image} alt="" />
@@ -59,7 +70,26 @@ const Product = () => {
             <p className='mt-5 text-3xl font-medium'> {currency} {productData.price} </p>
             <p className='mt-5 text-gray-500 md:w-4/5'> {productData.description} </p>
             <div className='flex flex-col gap-4 my-8'>
-              <p>Shop name</p>
+              <p>{productData.shopName}</p>
+              {/* <p>{productData.adminId}</p> */}
+
+              {/* Show shop status (open/closed) */}
+              <div className='flex gap-2'>
+  <button
+    className={`border py-2 px-4 font-semibold rounded ${
+      shopStatus === null
+        ? 'bg-gray-100 text-gray-600 border-gray-400 cursor-not-allowed' // Loading state
+        : shopStatus
+        ? 'bg-green-100 text-green-700 border-green-500 hover:bg-green-200' // Shop is Open
+        : 'bg-red-100 text-red-700 border-red-500 hover:bg-red-200' // Shop is Closed
+    }`}
+    disabled={shopStatus === null} // Disable button during loading
+  >
+    {shopStatus === null ? 'Loading...' : shopStatus ? 'Shop is Open' : 'Shop is Closed'}
+  </button>
+</div>
+
+
               {/* <div className='flex gap-2'>
                  {productData.sizes.map((item , index) => (
                   <button onClick={() => setSize(item)} className={`border py-2 px-4 bg-gray-100 ${item === size ? 'border-orange-500' : '' }`} key={index} >{item}</button>
@@ -67,9 +97,7 @@ const Product = () => {
               </div> */}
 
               {/* change in S M L and updated to Is open ? */}
-              <div className='flex gap-2'>
-                <button className='border py-2 px-4 bg-gray-100'>Is Open ?</button>
-              </div>
+             
               {/* here change ends */}
             </div>
             {/* <button onClick={() => addToCart(productData._id , size , )} className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'>ADD TO CART</button> */}

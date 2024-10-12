@@ -69,16 +69,9 @@ const Sidebar = ({ isSidebarOpen, setToken }) => {
         <input type="checkbox" checked={shopStatus} onChange={handleToggle} className="sr-only peer" />
 
         {/* Toggle background */}
-        <div
-            className={`relative w-12 h-6 sm:w-16 sm:h-8 md:w-20 md:h-10 rounded-full flex items-center
-            ${shopStatus ? 'bg-green-500' : 'bg-red-500'} transition-colors duration-300`}
-        >
+        <div className={`relative w-12 h-6 sm:w-16 sm:h-8 md:w-20 md:h-10 rounded-full flex items-center ${shopStatus ? 'bg-green-500' : 'bg-red-500'} transition-colors duration-300`} >
             {/* Toggle button */}
-            <div
-                className={`relative bg-white w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-full 
-                transform transition-transform duration-300 
-                ${shopStatus ? 'translate-x-[calc(100%)]' : 'translate-x-[0%]'}`}
-            ></div>
+            <div className={`relative bg-white w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-full  transform transition-transform duration-300  ${shopStatus ? 'translate-x-[calc(100%)]' : 'translate-x-[0%]'}`} ></div>
         </div>
 
         {/* Shop status text */}

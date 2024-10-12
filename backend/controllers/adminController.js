@@ -123,4 +123,22 @@ const getShopStatus = async (req, res) => {
   }
 };
 
-export { adminLogin, adminRegister, updateShopStatus, getShopStatus };
+// Fetch shop status by shopId (adminId)
+const getShopStatusByAdminId = async (req, res) => {
+  try {
+    const { adminId } = req.params;
+
+    const admin = await adminModel.findById(adminId);  // Find admin using shopId (adminId)
+    if (!admin) {
+      return res.json({ success: false, message: "Shop not found" });
+    }
+
+    // Return the shop status
+    res.json({ success: true, shopStatus: admin.shopStatus });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+
+export { adminLogin, adminRegister, updateShopStatus, getShopStatus, getShopStatusByAdminId };
