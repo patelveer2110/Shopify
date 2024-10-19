@@ -6,6 +6,7 @@ import Add from './pages/Add'
 import List from './pages/List'
 import Orders from './pages/Order'
 import Login from './components/Login'
+import AdminRegister from './components/AdminRegister'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export const currency ='₹'
@@ -29,8 +30,12 @@ const App = () => {
     <div className='bg-gray-50 min-h-screen'>
       <ToastContainer/>
       {token === ""
-        ? <Login setToken={setToken}/>
-        :
+        ?(
+          <Routes>
+            <Route path='/register' element={<AdminRegister setToken={setToken} />} /> {/* Add the register route */}
+            <Route path='/' element={<Login setToken={setToken} />} /> {/* Default login route */}
+          </Routes>
+        ):
         <>
           <Navbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} setToken={setToken} />
           <hr />

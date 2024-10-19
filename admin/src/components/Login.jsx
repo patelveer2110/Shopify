@@ -1,55 +1,74 @@
-import React, { useState } from 'react'
-import { backendUrl } from '../App'
-import axios from 'axios'
-import { toast } from 'react-toastify'
+import React, { useState } from 'react';
+import { backendUrl } from '../App';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 
+const Login = ({ setToken }) => {
 
-const Login = ({setToken}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-        const [email,setEmail] =useState('')
-        const [password,setPassword] =useState('')
-
-    const onSumbitHandler = async (e) => {
-        try {
-            e.preventDefault();
-           // console.log(email, password);
-            const response =await axios.post(backendUrl+'/api/admin/login',{email,password})
-             console.log(response);
-            if (response.data.success) {
-                console.log(response.data.token_admin);
-                
-                setToken(response.data.token_admin)
-            }
-            else{
-                toast.error(response.data.message)
-            }
-            
-
-        } catch (error) {
-            console.log(error.message);
-            toast.error(error.message)
-            
-        }
+  const onSumbitHandler = async (e) => {
+    try {
+      e.preventDefault();
+      const response = await axios.post(backendUrl + '/api/admin/login', { email, password });
+      console.log(response);
+      if (response.data.success) {
+        console.log(response.data.token_admin);
+        setToken(response.data.token_admin);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message);
     }
+  };
 
   return (
-    <div className=' min-h-screen flex items-center justify-center w-full'>
-        <div className=' bg-white shadow-md rounded-lg px-8 py-6 max-w-md'>
-            <h1 className='text-2xl font-bold mb-4'>Admin Panel</h1>
-            <form onSubmit={onSumbitHandler}>
-                <div className='mb-3 min-w-72'>
-                    <p className='text-sm font-medium text-gray-700 md-2 ' >Email Address</p>
-                    <input onChange={(e)=>setEmail(e.target.value)} value={email} className='rounded-md w-full px-3 py-2 border border-gray-300 outline-none' type="email" placeholder='you@gmail.com' required />
-                </div>
-                <div className='mb-3 min-w-72'>
-                    <p className='text-sm font-medium text-gray-700 md-2 ' >Password</p>
-                    <input onChange={(e)=>setPassword(e.target.value)} value={password} className='rounded-md w-full px-3 py-2 border border-gray-300 outline-none' type="password" placeholder='password' required />
-                </div>
-                <button className=' mt-2 w-full py-2 px-4 rounded-md text-white bg-black' type='submit'>Login</button>
-            </form>
-        </div>
-    </div>
-  )
-}
+    <div className='min-h-screen flex items-center justify-center w-full'>
+      <div className='bg-white shadow-md rounded-lg px-8 py-6 max-w-md'>
+        <h1 className='text-2xl font-bold mb-4'>Admin Panel</h1>
+        <form onSubmit={onSumbitHandler}>
+          <div className='mb-3 min-w-72'>
+            <p className='text-sm font-medium text-gray-700 md-2 '>Email Address</p>
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              className='rounded-md w-full px-3 py-2 border border-gray-300 outline-none'
+              type='email'
+              placeholder='you@gmail.com'
+              required
+            />
+          </div>
+          <div className='mb-3 min-w-72'>
+            <p className='text-sm font-medium text-gray-700 md-2 '>Password</p>
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              className='rounded-md w-full px-3 py-2 border border-gray-300 outline-none'
+              type='password'
+              placeholder='password'
+              required
+            />
+          </div>
+          <button className='mt-2 w-full py-2 px-4 rounded-md text-white bg-black' type='submit'>
+            Login
+          </button>
+        </form>
 
-export default Login
+        {/* Link to registration page */}
+        <div className='mt-4 text-center'>
+          <p className='text-sm'>Don't have an account? 
+            <Link to='/register' className='text-blue-500 hover:underline ml-1'>
+              Register here
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

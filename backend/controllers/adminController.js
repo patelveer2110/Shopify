@@ -74,7 +74,7 @@ const adminRegister = async (req,res) => {
           const admin = await newAdmin.save();
 
           const token_admin = createToken(admin._id)
-          res.setHeader("token-admin", token_admin);
+          res.setHeader("token_admin", token_admin);
 
           res.json({ success: true, token_admin , message:'Admin Regisetered successfully' });
         } catch (error) {
