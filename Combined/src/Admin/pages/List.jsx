@@ -1,0 +1,105 @@
+import React, { useEffect, useState } from 'react'
+import { backendUrl, currency } from '../../App.jsx'
+import { toast } from 'react-toastify'
+import axios from 'axios'
+
+const List = ({ token }) => {
+  const [list, setList] = useState([])
+
+  const fetchList = async () => {
+    try {
+      const response = await axios.get(backendUrl + '/api/product/list', {
+        headers: { token_admin: token }
+      })
+
+      if (response.data.success) {
+        setList(response.data.products)
+      } else {
+        toast.error(response.data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
+  const removeProduct = async (id) => {
+    try {
+      const response = await axios.post(backendUrl + '/api/product/remove', { id }, {
+        headers: { token_admin: token }
+      })
+      if (response.data.success) {
+        toast.success(response.data.message)
+        await fetchList()
+      } else {
+        toast.error(response.data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
+  useEffect(() => {
+    fetchList()
+  }, [])
+
+  return (
+    <div className='px-4 sm:px-6 lg:px-8 mt-16 sm:mt-auto'>
+      <p className='text-lg font-bold mb-4'>All Products List</p>
+
+      <div className='flex flex-col gap-4'>
+        {/* ---------------------Table Header (Hidden on small screens)------------------ */}
+        <div className='hidden sm:grid grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center py-2 px-4 border bg-gray-100 text-sm'>
+          <b>Image</b>
+          <b>Name</b>
+          <b>Category</b>
+          <b>Price</b>
+          <b className='text-center'>Action</b>
+        </div>
+
+        {/* -------------Product List ------------------------ */}
+        {list.map((item, index) => (
+          <div
+            key={index}
+            className='grid grid-cols-1 sm:grid-cols-[1fr_3fr_1fr_1fr_1fr] gap-2 py-2 px-4 border text-sm bg-white rounded-lg shadow-md'
+          >
+            {/* Product Image */}
+            <div>
+
+              <img className='w-16 h-16 object-cover mx-auto sm:mx-0' src={item.image} alt={item.name} />
+            </div>
+
+            {/* Product Info for Larger Screens */}
+            <div className='hidden sm:flex sm:justify-between items-center'>
+              <p>{item.name}</p>
+            </div>
+            <div className='hidden sm:flex sm:justify-between items-center'>
+
+              <p>{item.category}</p>
+            </div>
+            <div className='hidden sm:flex sm:justify-between items-center'>
+
+              <p>{currency}{item.price}</p>
+            </div>
+
+            {/* Product Info for Smaller Screens */}
+            <div className='flex flex-col items-center sm:hidden'>
+              <p><b>Name:</b> {item.name}</p>
+              <p><b>Category:</b> {item.category}</p>
+              <p><b>Price:</b> {currency}{item.price}</p>
+            </div>
+
+            {/* Action Button */}
+            <button
+              onClick={() => removeProduct(item._id)}
+              className='text-right md:text-center text-red-600 hover:underline sm:col-span-1'
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default List
