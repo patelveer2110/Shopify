@@ -10,12 +10,7 @@ const connectDB = async () => {
     })
 
 
-    await mongoose.connect(`${process.env.MONGODB_URL}/e-commerce`, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        serverSelectionTimeoutMS: 50000, // Increase to 50 seconds
-        socketTimeoutMS: 45000           // Increase socket timeout if needed
-      })
+    await mongoose.connect(`${process.env.MONGODB_URL}/e-commerce`)
 }
 
 export default connectDB
