@@ -16,6 +16,28 @@ const Add = ({ token }) => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
+    // Validation checks
+    if (!image) {
+      toast.error('Please upload an image');
+      return;
+    }
+    if (name.trim() === '') {
+      toast.error('Please enter the product name');
+      return;
+    }
+    if (description.trim() === '') {
+      toast.error('Please enter the product description');
+      return;
+    }
+    if (price === '' || price <= 0) {
+      toast.error('Please enter a valid product price');
+      return;
+    }
+    if (category === 'select') {
+      toast.error('Please select a product category');
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append('name', name);
@@ -128,7 +150,7 @@ const Add = ({ token }) => {
 
       <button
         type="submit"
-        className="w-full sm:w-32 py-2 mt-4 bg-black hover:bg-gray-900 text-white font-semibold rounded-md transition duration-200"
+        className="w-full sm:w-32 py-2 mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition duration-200"
       >
         Add Product
       </button>
