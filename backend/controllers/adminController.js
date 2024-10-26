@@ -1,4 +1,5 @@
 import adminModel from "../models/adminModel.js";
+import productModel from "../models/productModel.js";
 import validator from "validator"
 import bcrypt from "bcrypt";
 import express from "express" 
@@ -158,7 +159,55 @@ const adminDetails =  async (req, res) => {
 };
 
 
+// controllers/adminController.js
+
+
+// Update Admin Details
+const updateAdminDetails = async (req, res) => {
+    const { name, email, shopName, address, contactNumber, shopStatus } = req.body;
+    const adminId = req.adminID; // Assuming you store admin ID in req.adminId from middleware
+
+    try {
+        // Find the admin by ID and update the details
+        const updatedAdmin = await adminModel.findByIdAndUpdate(
+            adminId,
+            {
+                name,
+                email,
+                shopName,
+                address,
+                contactNumber,
+                shopStatus,
+            },
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedAdmin) {
+            return res.status(404).json({ success: false, message: 'Admin not found.' });
+        }
+
+        // Update all products associated with this admin's shop
+        await productModel.updateMany(
+            { adminId }, // Assuming products have an adminId field to relate to the admin
+            {
+                shopName: updatedAdmin.shopName,
+                shopAddress: updatedAdmin.address, // Assuming there's a field for address in Product
+            }
+        );
+
+        res.status(200).json({
+            success: true,
+            message: 'Admin details updated successfully, and products updated.',
+            admin: updatedAdmin,
+        });
+    } catch (error) {
+        console.error('Error updating admin details:', error);
+        res.status(500).json({ success: false, message: 'Server error.' });
+    }
+};
 
 
 
-export { adminLogin, adminRegister, updateShopStatus, getShopStatus, getShopStatusByAdminId ,adminDetails };
+
+
+export { adminLogin, adminRegister, updateShopStatus, getShopStatus, getShopStatusByAdminId ,adminDetails, updateAdminDetails };
