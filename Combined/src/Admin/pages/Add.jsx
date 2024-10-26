@@ -128,7 +128,7 @@ const Add = ({ token }) => {
 
       <button
         type="submit"
-        className="w-full sm:w-32 py-2 mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition duration-200"
+        className="w-full sm:w-32 py-2 mt-4 bg-black hover:bg-gray-900 text-white font-semibold rounded-md transition duration-200"
       >
         Add Product
       </button>

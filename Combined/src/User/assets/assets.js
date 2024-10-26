@@ -139,7 +139,7 @@ export const products = [
     {
         _id: "aaaad",
         name: "Rice Water and Chia Seed Shampoo",
-        description: "Rice Water and Chia Seed Shampoo for Nourishment, Ideal for Dry & Frizzy Hair - 300 ml.",
+        description: "5",
         price: 500,
         image: [p_img4],
         category: "Personal",
