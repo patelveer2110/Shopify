@@ -15,12 +15,7 @@ connectCloudinary()
 
 //middleware
 app.use(express.json())
-app.use(cors(
-    {origin: ["https://shopify-frontend-theta.vercel.app"], // Replace with your actual frontend domain
-    methods: ["GET", "POST", "PUT", "DELETE"], // Define the HTTP methods you allow
-    allowedHeaders: ["Content-Type", "Authorization"], // Specify which headers you allow
-    credentials: true}
-))
+app.use(cors())
 
 //api endpoints
 app.use('/api/user',userRouter)
