@@ -15,14 +15,16 @@ connectCloudinary()
 
 //middleware
 app.use(express.json())
-app.use(cors())
+app.use(cors(
+    {origin:"*"}
+))
 
 //api endpoints
 app.use('/api/user',userRouter)
 app.use('/api/admin',adminRouter)
 app.use('/api/product',productRouter)
 
-app.get('/',(req,res)=>{
+app.get('/',(req,res)=>{                                                                                                                                                                                                                                                                                                                                                                                                                                                
     res.send("API Working")
 })
 
