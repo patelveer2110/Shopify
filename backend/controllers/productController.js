@@ -27,14 +27,14 @@ const addProduct = async (req, res) => {
         background: "white" // Adds white padding for any empty space
       }).then((result) => result.secure_url);
   
-      console.log(name, description, category, price, bestseller, admin.shopName);
+      console.log(name, description, category, price, admin.shopName);
   
       const productData = {
         name,
         description,
         category,
         price: Number(price),
-        bestseller: bestseller === "true",
+        shopAddress : admin.address ,
         image: imageUrl,
         shopName: admin.shopName,
         adminId: ID,

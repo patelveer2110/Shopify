@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
   adminId: { type: mongoose.Schema.Types.ObjectId, ref: 'admin', required: true },
   // Store the shop name of the admin
   shopName: { type: String , required: true },
-    bestseller:{type:Boolean},
+  shopAddress:{type:String, required:true},
     date:{type:Number, required:true}
 })
 

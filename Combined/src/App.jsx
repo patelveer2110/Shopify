@@ -8,14 +8,15 @@ import Collection from './User/pages/Collection';
 import About from './User/pages/About';
 import Contact from './User/pages/Contact';
 import Product from './User/pages/Product';
-import Cart from './User/pages/Cart';
-import UserOrders from './User/pages/Orders';
+// import Cart from './User/pages/Cart';
+// import UserOrders from './User/pages/Orders';
 import SearchBar from './User/components/SearchBar';
 import UserNavbar from './User/components/Navbar';
 import UserFooter from './User/components/Footer';
 
 import AdminAdd from './Admin/pages/Add';
 import AdminList from './Admin/pages/List';
+import AdminProfile from './Admin/pages/AdminProfile';
 import AdminNavbar from './Admin/components/Navbar';
 import AdminSidebar from './Admin/components/Sidebar';
 import AdminRegister from './components/AdminRegister';
@@ -95,6 +96,7 @@ const App = () => {
                   <Routes>
                     <Route path='/add' element={<AdminAdd token={adminToken} />} />
                     <Route path='/list' element={<AdminList token={adminToken} />} />
+                    <Route path='/profile' element={<AdminProfile token={adminToken} />} />
                     <Route path='*' element={<AdminAdd token={adminToken} />} />
                   </Routes>
                 </div>
@@ -103,7 +105,7 @@ const App = () => {
           ) : (
             <>
               <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
-                <UserNavbar setToken={setUserToken} />
+                <UserNavbar setToken={setUserToken} setRole={setRole} />
                 <SearchBar />
                 <Routes>
                   <Route path='/' element={<Home />} />
@@ -111,8 +113,8 @@ const App = () => {
                   <Route path='/about' element={<About />} />
                   <Route path='/contact' element={<Contact />} />
                   <Route path='/product/:productId' element={<Product />} />
-                  <Route path='/cart' element={<Cart />} />
-                  <Route path='/orders' element={<UserOrders token={userToken} />} />
+                  {/* <Route path='/cart' element={<Cart />} /> */}
+                  {/* <Route path='/orders' element={<UserOrders token={userToken} />} /> */}
                   <Route path='*' element={<Home />} />
                 </Routes>
                 <UserFooter />

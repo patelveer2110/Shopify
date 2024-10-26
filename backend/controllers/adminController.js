@@ -141,4 +141,24 @@ const getShopStatusByAdminId = async (req, res) => {
 };
 
 
-export { adminLogin, adminRegister, updateShopStatus, getShopStatus, getShopStatusByAdminId };
+
+const adminDetails =  async (req, res) => {
+  try {
+    const adminId = req.adminID; // Retrieve the admin ID from token or request, if applicable
+    const admin = await adminModel.findById(adminId); // Exclude password for security
+
+    if (!admin) {
+      return res.status(404).json({ success: false, message: 'Admin not found' });
+    }
+
+    res.json({ success: true, admin });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error', error });
+  }
+};
+
+
+
+
+
+export { adminLogin, adminRegister, updateShopStatus, getShopStatus, getShopStatusByAdminId ,adminDetails };

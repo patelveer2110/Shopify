@@ -1,16 +1,17 @@
+// Sidebar.jsx
 import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { NavLink, useNavigate } from 'react-router-dom';
 import { backendUrl } from '../../App';
-import { assets } from '../assets/assets';
 import axios from 'axios';
+import { assets } from '../assets/assets';
 
 const Sidebar = ({ isSidebarOpen, setToken }) => {
     const [shopStatus, setShopStatus] = useState(true);
-    const navigate = useNavigate(); // Initialize useNavigate hook
+    const navigate = useNavigate();
 
-    // Fetch current shop status when the component mounts
     useEffect(() => {
         const token = localStorage.getItem('token_admin');
+
         axios
             .get(backendUrl + '/api/admin/shop-status', {
                 headers: { token_admin: token },
@@ -25,45 +26,10 @@ const Sidebar = ({ isSidebarOpen, setToken }) => {
             });
     }, []);
 
-    // Function to update shop status in backend
-    const updateShopStatus = (status) => {
-        axios
-            .post(
-                backendUrl + '/api/admin/update-shop-status',
-                { shopStatus: status },
-                { headers: { token_admin: localStorage.getItem('token_admin') } }
-            )
-            .then((response) => {
-                if (!response.data.success) {
-                    alert('Failed to update shop status.');
-                } else {
-                    alert(`Shop is now ${status ? 'Open' : 'Closed'}`);
-                }
-            })
-            .catch((error) => {
-                console.error('Error updating shop status:', error);
-            });
-    };
-
-    // Handle slider change
-    const handleToggle = (e) => {
-        const updatedStatus = e.target.value === "1"; // Convert slider value to boolean
-        setShopStatus(updatedStatus);
-        updateShopStatus(updatedStatus);
-    };
-
-    // Handle slider click to toggle between min and max
-    const handleSliderClick = () => {
-        const newStatus = !shopStatus; // Toggle the status
-        setShopStatus(newStatus);
-        updateShopStatus(newStatus);
-    };
-
-    // Handle logout and navigation to login page
     const handleLogout = () => {
-        localStorage.removeItem('token_admin'); // Clear the token
-        setToken(''); // Clear the token state
-        navigate('/login'); // Redirect to login page
+        localStorage.removeItem('token_admin');
+        setToken('');
+        navigate('/login');
     };
 
     return (
@@ -71,46 +37,22 @@ const Sidebar = ({ isSidebarOpen, setToken }) => {
             <div className="flex flex-col gap-4 pt-6 text-[15px]">
                 
                 {/* Sidebar Links */}
-                <NavLink 
-                    to="/add"
-                    end
-                    className={({ isActive }) => 
-                        `flex items-center gap-3 px-3 py-2 mx-2 rounded-md transition-colors duration-300 border 
-                        ${isActive ? 'bg-[#ffebf5] border-[#c586a5]' : 'border-gray-300 hover:bg-gray-200 hover:border-[#c586a5]'}`}
-                >
+                <NavLink to="/add" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 mx-2 rounded-md transition-colors duration-300 border ${isActive ? 'bg-[#ffebf5] border-[#c586a5]' : 'border-gray-300 hover:bg-gray-200 hover:border-[#c586a5]'}`}>
                     <img src={assets.add_icon} alt="Add" />
                     <p className="sm:block">Add items</p>
                 </NavLink>
 
-                <NavLink 
-                    to="/list"
-                    end
-                    className={({ isActive }) => 
-                        `flex items-center gap-3 px-3 py-2 mx-2 rounded-md transition-colors duration-300 border 
-                        ${isActive ? 'bg-[#ffebf5] border-[#c586a5]' : 'border-gray-300 hover:bg-gray-200 hover:border-[#c586a5]'}`}
-                >
+                <NavLink to="/list" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 mx-2 rounded-md transition-colors duration-300 border ${isActive ? 'bg-[#ffebf5] border-[#c586a5]' : 'border-gray-300 hover:bg-gray-200 hover:border-[#c586a5]'}`}>
                     <img src={assets.order_icon} alt="List" />
                     <p className="sm:block">List items</p>
                 </NavLink>
 
-                {/* Shop Status Toggle */}
-                <div className="flex flex-col items-center gap-2 mt-4 ml-2 justify-center">
-                    <span className={`text-md font-semibold ${shopStatus ? 'text-green-800' : 'text-red-800'}`}>
-                        {shopStatus ? 'Shop is Open' : 'Shop is Closed'}
-                    </span>
-                    <label className="flex items-center cursor-pointer" onClick={handleSliderClick}>
-                        <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            value={shopStatus ? 1 : 0}
-                            onChange={handleToggle}
-                            className={`w-20 h-2 appearance-none rounded-lg cursor-pointer ${shopStatus ? 'bg-green-500' : 'bg-red-500'}`}
-                        />
-                    </label>
-                </div>
+                <NavLink to="/profile" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 mx-2 rounded-md transition-colors duration-300 border ${isActive ? 'bg-[#ffebf5] border-[#c586a5]' : 'border-gray-300 hover:bg-gray-200 hover:border-[#c586a5]'}`}>
+                    <img src={assets.profile_icon} alt="Profile" />
+                    <p className="sm:block">My Profile</p>
+                </NavLink>
 
-                {/* Log out button (visible only on small screens) */}
+                {/* Logout Button */}
                 <button onClick={handleLogout} className="block sm:hidden mx-2 mb-4 bg-gray-600 text-white px-4 py-2 rounded-full text-xs md:text-sm">
                     Log out
                 </button>

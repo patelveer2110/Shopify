@@ -8,9 +8,11 @@ const LatestCollection = () => {
     const { products } = useContext(ShopContext);
     const [latestProducts, setLatestProducts] = useState([]);
 
-    useEffect(()=>{
-        setLatestProducts(products.slice(0,10));
-    },[products])
+    useEffect(() => {
+        // Sort products by createdAt date in descending order, then take the first 10 items
+        const sortedProducts = [...products].sort((a, b) => (b.date) - (a.date));
+        setLatestProducts(sortedProducts.slice(0, 10));
+    }, [products]);
     
   return (
     <div className='my-10'>
