@@ -8,8 +8,6 @@ import Collection from './User/pages/Collection';
 import About from './User/pages/About';
 import Contact from './User/pages/Contact';
 import Product from './User/pages/Product';
-// import Cart from './User/pages/Cart';
-// import UserOrders from './User/pages/Orders';
 import SearchBar from './User/components/SearchBar';
 import UserNavbar from './User/components/Navbar';
 import UserFooter from './User/components/Footer';
@@ -113,8 +111,6 @@ const App = () => {
                   <Route path='/about' element={<About />} />
                   <Route path='/contact' element={<Contact />} />
                   <Route path='/product/:productId' element={<Product />} />
-                  {/* <Route path='/cart' element={<Cart />} /> */}
-                  {/* <Route path='/orders' element={<UserOrders token={userToken} />} /> */}
                   <Route path='*' element={<Home />} />
                 </Routes>
                 <UserFooter />

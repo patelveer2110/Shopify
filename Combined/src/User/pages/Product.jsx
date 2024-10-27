@@ -8,10 +8,9 @@ import axios from 'axios'
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency, addToCart } = useContext(ShopContext);
+  const { products, currency } = useContext(ShopContext);
   const [productData , setProductData] = useState(false);
   const [image , setImage ] = useState('')
-  const [size , setSize] = useState('')
   const [shopStatus, setShopStatus] = useState(null);
 
   // Fetch shop status by adminId (shopId)
