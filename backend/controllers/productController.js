@@ -9,7 +9,7 @@ import adminModel from '../models/adminModel.js'
 // function for add product 
 const addProduct = async (req, res) => {
     try {
-      const { name, description, category, price, bestseller } = req.body;
+      const { name, description, category, price, inStock } = req.body;
       const image1 = req.files.image && req.files.image[0];
       const ID = req.adminID;
   
@@ -38,7 +38,8 @@ const addProduct = async (req, res) => {
         image: imageUrl,
         shopName: admin.shopName,
         adminId: ID,
-        date: Date.now()
+        date: Date.now(),
+        inStock
       };
   
       console.log(productData);
@@ -111,4 +112,37 @@ const listProduct =async (req,res) =>  {
     }
 
 }
-export  { addProduct, listProduct, listProductAdmin , removeProduct, singleProduct}
+
+const updateProduct = async (req, res) => {
+  try {
+    console.log('rrdx');
+    
+    const { Id, name, description, category, price, inStock } = req.body;
+    const updateData = { name, description, category, price, inStock };
+
+    // Check if a new image is provided and include it in the update
+    if (req.files && req.files.image && req.files.image[0]) {
+      updateData.image = req.files.image[0].path; // Assuming 'path' is the saved location
+    }
+    console.log("Received productId:", req.body.Id);
+console.log("Received fields:", req.body);
+console.log("Received files:", req.files);
+
+    const updatedProduct = await productModel.findByIdAndUpdate(
+      Id,
+      updateData,
+      { new: true }
+    );
+
+    if (updatedProduct) {
+      res.json({ success: true, message: 'Product Updated', product: updatedProduct });
+    } else {
+      res.json({ success: false, message: 'Product not found' });
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+
+export  { addProduct, listProduct, listProductAdmin , removeProduct, singleProduct, updateProduct}

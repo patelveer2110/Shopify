@@ -11,7 +11,8 @@ const productSchema = new mongoose.Schema({
   // Store the shop name of the admin
   shopName: { type: String , required: true },
   shopAddress:{type:String, required:true},
-    date:{type:Number, required:true}
+    date:{type:Number, required:true},
+    inStock: { type: Boolean, default: true }
 })
 
 const productModel = mongoose.models.product || mongoose.model("product",productSchema);

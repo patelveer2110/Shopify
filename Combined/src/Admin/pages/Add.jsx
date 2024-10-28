@@ -11,6 +11,7 @@ const Add = ({ token }) => {
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('select');
   const [bestseller, setBestseller] = useState('false');
+  const [inStock, setInStock] = useState(true); // New state for stock status
   const [formKey, setFormKey] = useState(Date.now()); // Key for form re-render
 
   const onSubmitHandler = async (e) => {
@@ -46,6 +47,7 @@ const Add = ({ token }) => {
       formData.append('category', category);
       formData.append('bestseller', bestseller);
       formData.append('image', image);
+      formData.append('inStock', inStock); // Add stock status to form data
 
       const token = localStorage.getItem('token_admin');
       const response = await axios.post(
@@ -61,6 +63,7 @@ const Add = ({ token }) => {
         setImage(false);
         setPrice('');
         setCategory('select'); // Reset category to "Select" option
+        setInStock(true); // Reset in-stock checkbox to default
         setFormKey(Date.now()); // Trigger form re-render
       } else {
         toast.error(response.data.message);
@@ -123,7 +126,7 @@ const Add = ({ token }) => {
           <p className="mb-2 text-gray-700 font-semibold">Product Category</p>
           <select
             onChange={(e) => setCategory(e.target.value)}
-            value={category} // Ensure value is set to category state
+            value={category}
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
             required
           >
@@ -146,6 +149,16 @@ const Add = ({ token }) => {
             required
           />
         </div>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="inStock"
+          checked={inStock}
+          onChange={(e) => setInStock(e.target.checked)}
+        />
+        <label htmlFor="inStock" className="text-gray-700 font-semibold">In Stock</label>
       </div>
 
       <button
