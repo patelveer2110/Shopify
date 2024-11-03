@@ -23,24 +23,29 @@ const Product = () => {
   }, [productId, products, loading]);
 
   return productData && Object.keys(productData).length > 0 ? (
-    <div className='border-t-2 pt-10'>
-      <div className='flex gap-12 sm:gap-12 flex-col sm:flex-row'>
-        <div className='flex-1'>
-          <img className='w-full h-auto' src={image} alt={productData.name} />
+    <div className="border-t-2 pt-10 px-4 md:px-8 lg:px-16 bg-gray-50">
+      <div className="flex flex-col sm:flex-row gap-8 sm:gap-12">
+        <div className="flex-1">
+          <img className="w-full h-auto rounded-lg shadow-lg" src={image} alt={productData.name} />
         </div>
-        <div className='flex-1'>
-          <h1 className='font-medium text-2xl mt-2'>{productData.name}</h1>
-          <p className='mt-5 text-3xl font-medium'>{currency} {productData.price}</p>
-          <p className='mt-5 text-gray-500 md:w-4/5'>{productData.description}</p>
-          <p>{productData.shopName}</p>
-          <p className={productData.inStock ? 'text-green-600' : 'text-red-600'}>
+        <div className="flex-1 text-gray-800">
+          <h1 className="font-semibold text-2xl sm:text-3xl mt-4">{productData.name}</h1>
+          <p className="mt-4 text-3xl font-semibold text-gray-800">
+            {currency} {productData.price}
+          </p>
+          <p className="mt-6 text-gray-600 text-lg leading-relaxed">
+            {productData.description}
+          </p>
+          <p className="mt-4 text-lg font-medium text-gray-800">{productData.shopName}</p>
+          <p className="mt-2 text-gray-700">{productData.shopAddress}</p>
+          <p className={`mt-4 font-semibold ${productData.inStock ? 'text-green-600' : 'text-red-600'}`}>
             {productData.inStock ? 'In Stock' : 'Out of Stock'}
           </p>
         </div>
       </div>
     </div>
   ) : (
-    <div>Loading...</div>
+    <div className="text-center py-12 text-gray-500 font-medium">Loading...</div>
   );
 };
 
