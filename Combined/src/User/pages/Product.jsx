@@ -7,6 +7,17 @@ const Product = () => {
   const { products, currency, loading } = useContext(ShopContext);
   const [productData, setProductData] = useState({});
   const [image, setImage] = useState('');
+  const [shopStatus, setShopStatus] = useState(null);
+
+  // Fetch shop status by adminId (shopId)
+  const fetchShopStatus = async (adminId) => {
+    try {
+      const response = await axios.post(backendUrl+`/api/admin/${adminId}/status`); // Fetch shop status from backend
+      setShopStatus(response.data.shopStatus); // Set the shop status (true for open, false for closed)
+    } catch (error) {
+      console.error('Error fetching shop status:', error);
+    }
+  };
 
   const fetchProductData = () => {
     const product = products.find((item) => item._id === productId);
@@ -37,11 +48,24 @@ const Product = () => {
           <p className="mt-6 text-gray-600 text-lg leading-relaxed">
             {productData.description}
           </p>
-          <p className="mt-4 text-lg font-medium text-gray-800">{productData.shopName}</p>
-          <p className="mt-2 text-gray-700">{productData.shopAddress}</p>
           <p className={`mt-4 font-semibold ${productData.inStock ? 'text-green-600' : 'text-red-600'}`}>
             {productData.inStock ? 'In Stock' : 'Out of Stock'}
           </p>
+          <p className="mt-4 text-lg font-medium text-gray-800">{productData.shopName}</p>
+          <p className="mt-2 text-gray-700">{productData.shopAddress}</p>
+          <div className='flex gap-2'>
+              <button
+                className={`border py-2 px-4 font-semibold rounded ${shopStatus === null
+                    ? 'bg-gray-100 text-gray-600 border-gray-400 cursor-not-allowed' // Loading state
+                    : shopStatus
+                      ? 'bg-green-100 text-green-700 border-green-500 hover:bg-green-200' // Shop is Open
+                      : 'bg-red-100 text-red-700 border-red-500 hover:bg-red-200' // Shop is Closed
+                  }`}
+                disabled={shopStatus === null} // Disable button during loading
+              >
+                {shopStatus === null ? 'Loading...' : shopStatus ? 'Shop is Open' : 'Shop is Closed'}
+              </button>
+            </div>
         </div>
       </div>
     </div>
