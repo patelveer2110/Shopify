@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
+import axios from 'axios';
+import { backendUrl } from '../../App';
 
 const Product = () => {
   const { productId } = useParams();
@@ -13,7 +15,9 @@ const Product = () => {
   const fetchShopStatus = async (adminId) => {
     try {
       const response = await axios.post(backendUrl+`/api/admin/${adminId}/status`); // Fetch shop status from backend
-      setShopStatus(response.data.shopStatus); // Set the shop status (true for open, false for closed)
+      setShopStatus(response.data.shopStatus);
+      console.log("fdcx"+response);
+       // Set the shop status (true for open, false for closed)
     } catch (error) {
       console.error('Error fetching shop status:', error);
     }
@@ -24,6 +28,7 @@ const Product = () => {
     if (product) {
       setProductData(product);
       setImage(product.image);
+      fetchShopStatus(product.adminId);
     }
   };
 
@@ -53,10 +58,10 @@ const Product = () => {
           </p>
           <p className="mt-4 text-lg font-medium text-gray-800">{productData.shopName}</p>
           <p className="mt-2 text-gray-700">{productData.shopAddress}</p>
-          <div className='flex gap-2'>
-              <button
+          <div className='flex gap-2 mt-4'>
+              <div
                 className={`border py-2 px-4 font-semibold rounded ${shopStatus === null
-                    ? 'bg-gray-100 text-gray-600 border-gray-400 cursor-not-allowed' // Loading state
+                    ? 'bg-gray-100 text-gray-600 border-gray-400 ' // Loading state
                     : shopStatus
                       ? 'bg-green-100 text-green-700 border-green-500 hover:bg-green-200' // Shop is Open
                       : 'bg-red-100 text-red-700 border-red-500 hover:bg-red-200' // Shop is Closed
@@ -64,7 +69,7 @@ const Product = () => {
                 disabled={shopStatus === null} // Disable button during loading
               >
                 {shopStatus === null ? 'Loading...' : shopStatus ? 'Shop is Open' : 'Shop is Closed'}
-              </button>
+              </div>
             </div>
         </div>
       </div>
