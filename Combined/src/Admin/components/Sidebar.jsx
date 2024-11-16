@@ -88,7 +88,7 @@ const Sidebar = ({ isSidebarOpen, setToken }) => {
                 {/* shop status */}
                 <div className="flex flex-col items-center gap-3 mt-4 ml-2 justify-center">
                     <span className={`text-md font-semibold ${shopStatus ? 'text-green-800' : 'text-red-800'}`}>
-                        {shopStatus ? 'Shop is Open' : 'Shop is Closed'}
+                        {shopStatus ? 'shop is Open' : 'shop is Closed'}
                     </span>
                     <label className="flex items-center cursor-pointer" onClick={handleSliderClick}>
                         <input
@@ -96,7 +96,7 @@ const Sidebar = ({ isSidebarOpen, setToken }) => {
                             min="0"
                             max="1"
                             value={shopStatus ? 1 : 0}
-                            onChange={handleToggle}
+                           // onChange={handleToggle}
                             className={`w-20 h-2 appearance-none rounded-lg text-white cursor-pointer ${shopStatus ? 'bg-green-500' : 'bg-red-500'}`}
                             style={{ backgroundColor: shopStatus ? '#48bb78' : '#f56565' }} // Inline style for dynamic background
                         />
