@@ -5,6 +5,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Home from './User/pages/Home';
 import Collection from './User/pages/Collection';
+import Cart from './User/pages/Cart';
+import PreviousOrders from './User/pages/PreviousOrders';
+import Order from './User/pages/Order';
 import About from './User/pages/About';
 import Contact from './User/pages/Contact';
 import Product from './User/pages/Product';
@@ -14,6 +17,8 @@ import UserFooter from './User/components/Footer';
 
 import AdminAdd from './Admin/pages/Add';
 import AdminList from './Admin/pages/List';
+import AdminOrder from './Admin/pages/Order';
+import AdminHistoryOrder from './Admin/pages/HistoryOrders';
 import AdminProfile from './Admin/pages/AdminProfile';
 import AdminNavbar from './Admin/components/Navbar';
 import AdminSidebar from './Admin/components/Sidebar';
@@ -95,6 +100,8 @@ const App = () => {
                     <Route path='/add' element={<AdminAdd token={adminToken} />} />
                     <Route path='/list' element={<AdminList token={adminToken} />} />
                     <Route path='/profile' element={<AdminProfile token={adminToken} />} />
+                    <Route path='/order' element={<AdminOrder token={adminToken} />} />
+                    <Route path='/history-orders' element={<AdminHistoryOrder />} />
                     <Route path='*' element={<AdminAdd token={adminToken} />} />
                   </Routes>
                 </div>
@@ -108,9 +115,12 @@ const App = () => {
                 <Routes>
                   <Route path='/' element={<Home />} />
                   <Route path='/collection' element={<Collection />} />
+                  <Route path='/cart' element={<Cart token={userToken}/>} />
+                  <Route path='/myorders' element={<PreviousOrders/>} />
+                  <Route path='/order/:cartId' element={<Order token={userToken}/>} />
                   <Route path='/about' element={<About />} />
                   <Route path='/contact' element={<Contact />} />
-                  <Route path='/product/:productId' element={<Product />} />
+                  <Route path='/product/:productId' element={<Product token={userToken} />} />
                   <Route path='*' element={<Home />} />
                 </Routes>
                 <UserFooter />

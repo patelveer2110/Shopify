@@ -4,9 +4,9 @@ const   adminAuth =async (req,res,next) => {
     try {
         
         const {token_admin}=req.headers
-        console.log("fd"+token_admin);
+        //console.log("fd"+token_admin);
         
-        // console.log("vc"+token_admin);
+        //console.log("vc"+token_admin);
         
         if (!token_admin) {
             return res.json({success:false,token:token_admin,message:"Not Authorized Login Again"})

@@ -6,7 +6,7 @@ const ProductItem = ({id, image , name , price}) => {
 
     const {currency} = useContext(ShopContext);
     const handleClick = () => {
-      // navigate(`/product/${product._id}`);
+      //navigate(`/product/${product._id}`);
       window.scrollTo({ top: 0, behavior: 'smooth' });  // Scroll to top on navigation
   };
 

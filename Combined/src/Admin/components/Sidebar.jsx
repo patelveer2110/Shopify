@@ -84,7 +84,15 @@ const Sidebar = ({ isSidebarOpen, setToken }) => {
                     <p className="sm:block">My Profile</p>
                 </NavLink>
 
+                <NavLink to="/order" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 mx-2 rounded-md transition-colors duration-300 border ${isActive ? 'bg-[#ffebf5] border-[#c586a5]' : 'border-gray-300 hover:bg-gray-200 hover:border-[#c586a5]'}`}>
+                    <img src={assets.profile_icon} alt="Profile" />
+                    <p className="sm:block">Orders</p>
+                </NavLink>
 
+                <NavLink to="/history-orders" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 mx-2 rounded-md transition-colors duration-300 border ${isActive ? 'bg-[#ffebf5] border-[#c586a5]' : 'border-gray-300 hover:bg-gray-200 hover:border-[#c586a5]'}`}>
+                    <img src={assets.profile_icon} alt="Profile" />
+                    <p className="sm:block">History-Orders</p>
+                </NavLink>
                 {/* shop status */}
                 <div className="flex flex-col items-center gap-3 mt-4 ml-2 justify-center">
                     <span className={`text-md font-semibold ${shopStatus ? 'text-green-800' : 'text-red-800'}`}>

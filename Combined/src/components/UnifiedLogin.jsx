@@ -40,13 +40,13 @@ const UnifiedLogin = ({ setToken, setAdminToken, setRole }) => {
           name: formData.name,  // Include name in the request
           email: formData.email,
           password: formData.password,
+          contactNumber: formData.contactNumber,
           ...(isUserMode
             ? {} // User-specific fields
             : { // Admin-specific fields
-                shopName: formData.shopName,
-                address: formData.address,
-                contactNumber: formData.contactNumber
-              })
+              shopName: formData.shopName,
+              address: formData.address,
+            })
         });
 
         if (response.data.success) {
@@ -163,6 +163,22 @@ const UnifiedLogin = ({ setToken, setAdminToken, setRole }) => {
               required
             />
           </div>
+          {isUserMode && currentState === 'Sign Up' && (
+            <>
+              <div className='mb-3'>
+                <p className='text-sm font-medium text-gray-700'>Contact Number</p>
+                <input
+                  onChange={handleChange}
+                  value={formData.contactNumber}
+                  name='contactNumber'
+                  className='rounded-md w-full px-3 py-2 border border-gray-300 outline-none'
+                  type='text'
+                  placeholder='Contact Number'
+                  required
+                />
+              </div>
+            </>
+          )}
 
           {/* Show additional fields for Admin Register */}
           {!isUserMode && currentState === 'Sign Up' && (
@@ -191,18 +207,20 @@ const UnifiedLogin = ({ setToken, setAdminToken, setRole }) => {
                   required
                 />
               </div>
-              <div className='mb-3'>
-                <p className='text-sm font-medium text-gray-700'>Contact Number</p>
-                <input
-                  onChange={handleChange}
-                  value={formData.contactNumber}
-                  name='contactNumber'
-                  className='rounded-md w-full px-3 py-2 border border-gray-300 outline-none'
-                  type='text'
-                  placeholder='Contact Number'
+              <div className="mb-4">
+                <label className="font-semibold">Delivery Option:</label>
+                <select
+                  name="deliveryOption"
+                  value={deliveryOption}
+                  onChange={(e) => setDeliveryOption(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   required
-                />
+                >
+                  <option value="delivery">Delivery & Takeaway</option>
+                  <option value="takeaway">Only Takeaway</option>
+                </select>
               </div>
+
             </>
           )}
 

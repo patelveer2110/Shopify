@@ -9,7 +9,8 @@ const AdminSchema = new Schema({
   shopName: { type: String, required: true },
   address: { type: String },
   contactNumber: { type: String },
-  shopStatus : {type : Boolean}
+  shopStatus : {type : Boolean},
+  deliveryOption: { type: String, enum: ['delivery', 'takeaway'], required: true }
     // Add more fields as needed
   
 });

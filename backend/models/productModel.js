@@ -9,8 +9,8 @@ const productSchema = new mongoose.Schema({
      // Reference to the admin who added the product
   adminId: { type: mongoose.Schema.Types.ObjectId, ref: 'admin', required: true },
   // Store the shop name of the admin
-  shopName: { type: String , required: true },
-  shopAddress:{type:String, required:true},
+  //shopName: { type: String , required: true },
+  //shopAddress:{type:String, required:true},
     date:{type:Number, required:true},
     inStock: { type: Boolean, default: true }
 })

@@ -92,20 +92,31 @@ const removeProduct =async (req,res) =>  {
 
 
 //function for singlr product info
-const singleProduct =async (req,res) =>  {
-   try {
-    const { product_Id } =req.body
+const singleProduct = async (req, res) => {
+  try {
+    const { product_Id } = req.body;
+
+    // Fetch product and populate admin contact number
     const product = await productModel.findById(product_Id)
-    res.json(product)
-   } catch (error) {
-    res.json(error.message)
-   }
-}
+    // Log product details for debugging
+    console.log("Product details:", product);
+
+    if (!product) {
+      return res.json({ success: false, message: "Product not found" });
+    }
+
+    res.json({ success: true, product });
+  } catch (error) {
+    console.error("Error fetching product:", error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
 
 const listProduct =async (req,res) =>  {
 
     try {
-        const products =await productModel.find({});
+        const products =await productModel.find({}).populate("adminId",'contactNumber shopName address shopStatus deliveryOption');
         res.json({success:true,products})
     } catch (error) {
         console.log(error);

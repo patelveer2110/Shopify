@@ -32,6 +32,14 @@ const Navbar = ({ setToken, setRole }) => {
                     <p>COLLECTION</p>
                     <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
                 </NavLink>
+                <NavLink to='/cart' className='flex flex-col items-center gap-1'>
+                    <p>CART</p>
+                    <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
+                </NavLink>
+                <NavLink to='/myorders' className='flex flex-col items-center gap-1'>
+                    <p>ORDERS</p>
+                    <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
+                </NavLink>
                 <NavLink to='/about' className='flex flex-col items-center gap-1'>
                     <p>ABOUT</p>
                     <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
@@ -68,6 +76,8 @@ const Navbar = ({ setToken, setRole }) => {
                     </div>
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/'>HOME</NavLink>
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/collection'>COLLECTION</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/cart'>CART</NavLink>
+                    <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/myorders'>ORDERS</NavLink>
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/about'>ABOUT</NavLink>
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/contact'>CONTACT</NavLink>
                     <button 
